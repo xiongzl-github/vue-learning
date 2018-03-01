@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 事件简写和事件对象$event</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      let vm=new Vue({
+        el:'#demo',
+        methods: {
+          show:function(){
+            console.log("hello!");
+          },
+          print:function(event){
+            // 这里获取的是dom对象
+            console.log(event.target.innerHTML);
+          }
+        }
+      })
+
+
+    }
+  </script>
+</head>
+<body>
+
+  <!-- 
+    vue: 事件对象$event, 与之间js里面用的event类似, 只不过这里使用$event
+    包含事件相关信息, target, type, offsetx...
+   -->
+
+
+  <div id="demo">
+    <button @click="show()">click me</button>
+    <hr>
+    <button @click="print($event)">click me</button>
+  </div>
+</body>
+</html>

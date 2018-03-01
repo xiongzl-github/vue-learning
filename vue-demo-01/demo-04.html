@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue常用指令 v-on</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      let value = new Vue({
+        el:'#demo',
+        // data: 用于存储属性
+        data:{
+          arr:[1, 2, 3, 4, 5]
+        },
+        // methods: 用于存储方法
+        methods: {
+          show:function(){
+            console.log("this is a show method!");
+          }, 
+         add(){
+           // 这里的this表示的是当前vue实例
+           console.log(this);
+           // true
+           console.log(this==value);
+           // 向数组里面添加一个元素
+           this.arr.push(6);
+           // 在方法中调用方法
+           this.show();
+         }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+  <!-- v-on 
+    用来绑定事件, 用法: v-on:事件="函数" -->
+  <div id="demo">
+    <button v-on:click="show()">click</button><br>
+    <button v-on:click="add()">向数组里面添加一个元素</button>
+    <button v-on:mouseover="show()">鼠标经过的时候执行该方法</button>
+    <p>arr: {{arr}}</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 百度搜索框</title>
+  <script src="js/vue.js"></script>
+  <script src="js/vue-resource.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script>
+    window.onload = function () {
+      new Vue({
+        el: "#demo",
+        data: {
+          keyword: '',
+          results: [],
+          curIndex: -1,
+          OriginalKeyWord: '',
+          now:'now',
+        },
+        methods: {
+          getData: function (event) {
+            // 如果按方向键上, 下, 则不发请求.
+            if(event.keyCode == 38 || event.keyCode == 40) {
+              return;
+            }
+            this.OriginalKeyWord = this.keyword;
+            this.url = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+            this.$http.jsonp(this.url, {
+              params: {
+                wd: this.keyword,
+              },
+              jsonp: 'cb',
+            }).then(resp => {
+              this.results = resp.data.s;
+              console.log(resp.data.s);
+            })
+          },
+          changeDown: function () {
+            if (this.results.length > 0) {
+              this.curIndex++;
+              this.keyword = this.results[this.curIndex];
+              if (this.curIndex == this.results.length) {
+                this.curIndex = -1;
+                this.keyword = this.OriginalKeyWord;
+              }
+            } else {
+              this.flag = true;
+            }
+            console.log(this.flag);
+          },
+          changeUp: function () {
+            if(this.results.length > 0) {
+              if(this.curIndex < 0) {
+                this.curIndex = this.results.length - 1;
+              } else {
+                this.curIndex--;
+              }
+              if(this.curIndex < 0) {
+                this.keyword = this.OriginalKeyWord;
+              } else {
+                this.keyword = this.results[this.curIndex];
+              }
+            } else {
+              this.flag = true;
+            }
+            console.log(this.flag);
+          },
+        }
+      })
+    }
+  </script>
+  <style>
+    .now {
+      background-color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 百度搜索列表 -->
+  <div id="demo">
+    <input v-model="keyword" type="text" @keyup="getData($event)" @keydown.up.prevent="changeUp()" @keydown.down="changeDown()"/>
+    <hr>
+    <ul>
+      <li v-for="(value,index) in results" :key="index" :class="{now: index==curIndex}"  v-text="value" ></li>
+    </ul>
+    <p v-show="results.length == 0">没有找到合适的结果...</p>
+  </div>
+</body>
+
+</html>

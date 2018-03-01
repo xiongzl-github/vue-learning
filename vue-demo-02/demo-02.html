@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: vue实例的属性和方法</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    1. 属性 
+      vm.$el
+      vm.$data
+      vm.$options
+      vm.$refs
+    2. 方法
+     vm.$mount();
+     vm.$mounted();
+     vm.$destroy();
+     vm.$nextTick();
+  -->
+  <div id="demo" style="margin-top:50px">
+    <span ref="ref_msg" v-text="msg"></span>
+    <span ref="ref_name">qiberlin</span>
+    <hr>
+    <span ref="ref_age">26</span>
+
+  </div>
+</body>
+<script>
+  var vm = new Vue({
+    el:'#demo',
+    data: {
+      msg:'hello world!'
+    },
+    // option 
+    name: 'tom',
+    age: 24,
+    show: function() {
+      console.log('show');
+    }
+  });
+
+  // 属性
+  // vm.属性名 获取data中的属性
+  console.log("vm.prop: 获取data中的属性: " + vm.msg);
+  // vm.$el: 获取vue实例关联的元素
+  console.log(vm.$el);
+  vm.$el.style.color='red';
+  // vm.$data: 用于获取数据对象
+  console.log(vm.$data);
+  console.log(vm.$data.msg);
+  // vm.$options: 用于获取自定义属性
+  console.log(vm.$options.name);
+  vm.$options.show();
+  // vm.$refs: 获取所有添加ref属性的元素
+  console.log(vm.$refs.ref_name.textContent);
+  vm.$refs.ref_name.style.color='orange';
+
+  // 方法
+  // vm.$mount(): 手动挂载vue实例
+  // vm.mount("#demo");
+  // new Vue({
+  //   data: {
+  //     msg: "hello world",
+  //   }
+  // }).$mount("#demo");
+  // vm.$destroy(): 销毁vue实例
+  // vm.$destroy();
+  // console.log(vm.msg);
+  // vm.$nextTick(callback): 在dom更新完成之后再执行回调函数, 一般再修改数据之后使用该方法, 以便获取更新后的dom.
+  console.log(vm.$refs.ref_age.textContent);
+  vm.msg="haha";
+  // 修改完数据之后, dom还没有更新完, 所以获取的值还是原来的值
+  // vue实现响应式并不是数据发生改变之后DOM立即发生变化, 
+  // 需要按一定的策略进行dom更新, 需要实现
+  console.log(vm.$refs.ref_msg.textContent);
+  // dom更新完之后, 才执行此代码.
+  vm.$nextTick(function() {
+    console.log(vm.$refs.ref_msg.textContent);
+  })
+</script>
+</html>

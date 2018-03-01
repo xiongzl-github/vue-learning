@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 键盘事件</title>
+  <script src="js/vue.js"></script>
+  <script>
+
+    /** 
+      * 自定义键位别名
+      */
+     Vue.config.keyCodes = {
+       a:65,
+       b:66,
+     }
+
+    window.onload = function () {
+      console.log("hello world!");
+      new Vue({
+        el:'#demo',
+        data:{
+          keyCode:0
+        },
+        methods: {
+          show(event) {
+            this.keyCode = event.keyCode;
+            console.log(event.keyCode);
+          },
+          print(){
+            console.log("你点击了回车键!");
+          },
+          info(event){
+            console.log(event.keyCode);
+          }
+        },
+      })
+      
+
+
+    }
+  </script>
+</head>
+
+<body>
+
+  <!-- 
+       键盘事件
+       回车: @keydown.13或@keydown.enter
+       上: @keydown.38或keydown.up 
+  -->
+
+  <div id="demo">
+    <!-- 键盘事件: @keydown, @keypress, @keyup -->
+    键值: <input type="text" @keydown="show($event)" value="">{{keyCode}}<br>
+    只有点击了enter键才会触发: <input type="text" @keydown.13="print()"><br>
+    只有点击了enter键才会触发: <input type="text" @keydown.enter="print()"><br>
+    <hr>
+    <!-- 自定义键值 -->
+    自定义键值: <input type="text" @keydown.a="info($event)">
+
+
+  </div>
+
+  
+
+
+  
+
+</body>
+
+</html>

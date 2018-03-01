@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue之事件修饰符</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function() {
+      new Vue({
+        el: '#demo',
+        data: {
+
+        },
+        methods: {
+          print(msg) {
+            console.log(msg);
+          }
+        },
+      })
+    }
+  </script>
+</head>
+<body>
+  
+    <!-- 事件修饰符
+        .native: 监听组件根元素的原生事件.
+        .once: 只触发一次回调 -->
+    <div id="demo">
+      <input type="button" @click.once="print('我只触发一次')" value="提交">
+    </div>
+
+</body>
+</html>

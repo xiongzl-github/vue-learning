@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 发送Ajax请求</title>
+  <script src="js/vue.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/vue-resource.min.js"></script>
+  <script src="bootstrap/jquery.min.js"></script>
+  <script>
+
+    const config = {
+      onUploadProgress: progressEvent => console.log(progressEvent.loaded),
+      onDownloadProgress: progressEvent => console.log(progressEvent.loaded),
+      
+    }
+
+
+    window.onload = function () {
+      new Vue({
+        el: '#demo',
+        data: {
+          url:"http://127.0.0.1:8080/api/user/addUser",
+          user:{
+            "id": 1001,
+            "username": "qiberlin",
+            "sex": 0,
+            "age": 22,
+          },
+          uid:'xzl666',
+          gitUser: {
+            name:'',
+            avatar_url:'',
+          }
+        },
+        methods: {
+          send: function () {
+            axios({
+              method: 'get',
+              url: 'user.json',
+            }).then(function (resp) {
+              console.log(resp.data);
+            }).catch(function (resp) {
+              console.log("请求失败: " + resp.status + ", " + resp.statusText);
+            });
+          },
+          sendGet: function () {
+            axios({
+              method: 'get',
+              url: 'http://localhost:8080/api/user/getUser',
+            }).then(function (resp) {
+              console.log(resp.data);
+            }).catch(function (resp) {
+              console.log("请求失败: " + resp.status + ", " + resp.statusText);
+
+            })
+          },
+          sendPost: function () {
+            axios({
+              method: 'post',
+              url: 'http://127.0.0.1:8080/api/user/addUser',
+              data: {
+                "id": 1001,
+                "username": "qiberlin",
+                "sex": 0,
+                "age": 22,
+              },
+            }).then(function (resp) {
+              console.log(resp.data);
+            }).catch(function (resp) {
+              console.log("请求失败: " + resp.status + ", " + resp.statusText);
+            })
+          },
+          sendPost02: function () {
+            axios.post('http://127.0.0.1:8080/api/user/addUser', {
+              "id": 1001,
+              "username": "qiberlin",
+              "sex": 0,
+              "age": 22,
+            }).then(function (resp) {
+              console.log(resp.data);
+            }).catch(function (resp) {
+              console.log("请求失败: " + resp.status + ", " + resp.statusText);
+            })
+          },
+          sendPost03: function() {
+            axios.post(this.url, this.user).then(resp => {
+              console.log(resp.data);
+            }).catch(rssp => {
+              console.log(resp);
+            })
+          },
+          getUserById: function(uid) {
+            console.log("uid: " + uid);
+            this.url = "https://api.github.com/users/"+uid;
+            console.log("url: " + this.url);
+            axios.get(this.url).then(resp => {
+              console.log(resp.data);
+              this.gitUser = resp.data;
+            }).catch(resp => {
+              console.log(resp);
+            })
+          },
+          sendJSONPOf360: function() {
+            this.url = 'https://sug.so.360.cn/suggest'
+            this.$http.jsonp(this.url, {
+              params: {
+                word:'a'
+              }
+            }, {
+              scriptCharset: 'utf-8',
+            }).then(resp => {
+              console.log(resp.data.s);
+            })
+          },
+          sendJSONPOfBaiDu: function() {
+            this.url = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+            this.$http.jsonp(this.url, {
+              params: {
+                wd:'a',
+              },
+              jsonp:'cb',
+            }).then(resp => {
+              console.log(resp.data.s);
+            })
+          }
+        },
+      })
+    }
+  </script>
+
+</head>
+
+<body>
+  <!-- 
+    vue本身不支持Ajax请求, 需要使用vue-resource, axios...插件实现
+
+    使用axios发送Ajax请求
+
+   -->
+  <div id="demo">
+    <button @click="send()">send</button>
+    <hr>
+    <button @click="sendGet()">sendGet</button>
+    <hr>
+    <button @click="sendPost()">sendPost</button>
+    <hr>
+    <button @click="sendPost02()">sendPost02</button>
+    <hr>
+    <button @click="sendPost03()">sendPost03</button>
+    <hr>
+    github用户ID: <input type="text" v-model="uid">
+    <button @click="getUserById(uid)">根据GitHub ID 获取GitHub基本信息</button> <br>
+    username: {{gitUser.name}} <br>
+    imgUrl: <img :src="gitUser.avatar_url" alt="avata"> <br>
+    <hr>
+    <hr>
+    <button @click="sendJSONPOf360()">向360发送JSONP请求</button>
+    <hr>
+    <button @click="sendJSONPOfBaiDu()">向百度发送JSONP请求</button>
+  </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue常用指令: v-for</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      new Vue({
+        el:'#demo',
+        data:{
+          nums:[1, 2, 3, 4, 5],
+          user:{
+            id:1,
+            name:'xiongzl',
+            sex:1,
+            age:26
+          },
+          arr:[1, 2, 3, 2, 1],
+          users:[{
+            id:1,
+            name:"xiongzl",
+            sex:0,
+            age:10
+          }, {
+            id:2,
+            name:"tom",
+            sex:0,
+            age:20
+          }]
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+  <div id="demo">
+    <!-- 循环数组, 获取键值 -->
+    <ul>
+      <li v-for="num in nums">{{num}}</li>
+    </ul>
+    <!-- 循环对象, 获取键值 -->
+    <ul>
+      <li v-for="userValue in user">{{userValue}}</li>
+    </ul>
+
+    <!-- 循环数组, 获取键值对, v-for里面第一个参数是vlaue, 第二个参数是key-->
+    <ul>
+      <li v-for="(value, key) in nums">{{key}}={{value}}</li>
+    </ul>
+    
+    <!-- 循环对象, 获取键值对 -->
+    <ul>
+      <li v-for="(value,key) in user">{{key}}={{value}}</li>
+    </ul>
+
+    <!-- vue2.0可以直接循环包含重复得集合, 可以通过指定:key属性绑定唯一key, 当更新元素是可重用元素, 提高效率 -->
+    <ul>
+      <li v-for="(value,key) in arr" :key="key">{{key}}={{value}}</li>
+    </ul>
+
+    <ul>
+      <li v-for="(user,index) in users" :key="index">
+        {{index}}&nbsp;{{user.id}}, {{user.name}}, {{user.sex}}, {{user.age}}
+      </li>
+    </ul>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue常用指令: v-show</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      new Vue({
+        el:'#demo',
+        data:{
+          flag:true
+        },
+        methods:{
+          show:function(){
+            this.flag = !this.flag;
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+  <!--   
+    v-show/v-if: 
+    用来显示或隐藏, v-show是通过display实现, v-if是通过每次删除后再重新创建.
+  -->
+  <div id="demo">
+    <button v-on:click="show()">{{flag}}</button>
+    <hr>
+    <div style="width: 100px; height: 100px; background-color: blue" v-show="flag">
+      <p>hello world</p>
+    </div>
+  </div>
+
+
+
+</body>
+</html>

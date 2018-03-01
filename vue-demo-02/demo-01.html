@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 计算属性</title>
+  <script src="js/vue.js"></script>
+
+</head>
+
+<body>
+  <!-- 
+    计算属性 
+    1. 计算属性也是用来存储数据的, 但是具有一下几个特点:
+      1-1: 数据可以进行逻辑处理操作
+      1-2: 可以对计算属性中的数据进行监视
+
+    2. 计算属性 vs 方法
+      将计算属性的get函数定义为一个方法也可以实现类似的功能
+      区别:
+      a. 计算属性是基于它的依赖进行更新的, 只有在相关依赖发生改变时才能更新变化
+      b. 计算属性是缓存的, 只要相关依赖没有改变, 多次访问计算属性得到的值是之前缓存的计算结果, 不会多次执行.
+
+    3. get和set
+      计算属性有两部分组成: get和set, 分别用来获取计算属性和设置计算属性
+      默认只有get, 如果需要set, 需要自己去添加
+
+   -->
+  <div id="demo">
+    <!-- 基本用法 -->
+    <span v-text="msg01"></span><br>
+    <span v-text="msg02"></span><br>
+    <span v-text="reserseMsg"></span><br>
+    <button @click="changeInfo()"> button </button>
+
+    <!-- 计算属性 vs 方法 -->
+    <h2>{{num1}}</h2>
+    <h2>{{num2}}</h2>
+    <h2>{{getNum2()}}</h2>
+    <hr>
+    <button onclick="fn()">button</button>
+    <!-- get, set -->
+    <hr>
+    <h2 v-text="num1"></h2>
+    <h2 v-text="num2"></h2>
+    <button @click="changeNum2()">修改计算属性</button>
+
+
+
+
+  </div>
+
+
+</body>
+  <script>
+    
+      let vm = new Vue({
+        el: '#demo',
+        data: {
+          msg01: "welcome to beijing",
+          num1: 5
+        },
+        computed: {
+          msg02: function () {
+            return "welcome to mapo!"
+          },
+          reserseMsg: function () {
+            return this.msg01.split(' ').reverse().join(' ');
+          },
+          num2: function () {
+            console.log(new Date());
+            return this.num1 - 1;
+          },
+
+          num: {
+            get: function() {
+              console.log('num2: ' + new Date());
+              return this.num1 - 1;
+            },
+            set: function(val) {
+              //this.num = val;
+              this.num1 = val;
+            }
+          }
+
+        },
+        methods: {
+          changeInfo: function () {
+            this.msg01 = 'I love you';
+          },
+          getNum2() {
+            console.log(new Date());
+            return this.num1 - 1;
+          },
+          changeNum2() {
+            this.num = 111;
+          }
+        }
+      })
+    function fn() {
+        setInterval(function () {
+          // 只要计算属性num2其依赖的num1的值不发生改变, 
+          // 其就不会执行其计算属性的方法, 而方法则只要你执行了, 都会得到执行
+          // vm.num1--;
+          // console.log(vm.num2);
+          console.log(vm.num1);
+          vm.getNum2();
+        }, 1000)
+      }
+  </script>
+</html>

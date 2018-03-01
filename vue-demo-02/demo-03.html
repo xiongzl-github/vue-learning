@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>添加和删除属性: $set, $delete</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    vm.$set(object, key, value); 
+    vm.$delete(object, key); 
+    vm.$watch(data, callback[, options]);
+  -->
+  <div id="demo">
+    <span v-text="user.name"></span>
+    <button @click="updateUser()">更新用户</button>
+    <hr>
+    <button @click="addPropOfUser()">给用户添加属性</button>
+    <span v-text="user.age"></span>
+    <hr>
+    <button @click="deletePropOfUser()">删除属性</button>
+    <span v-text="user.id"></span>
+  </div>
+</body>
+<script>
+  var vm = new Vue({
+    el: '#demo',
+    data: {
+      msg: "hello world",
+      user: {
+        id: 1001,
+        name: 'qiberlin',
+      }
+    },
+    methods: {
+      updateUser: function() {
+        this.user.name = "xiongzl";
+      },
+      addPropOfUser: function() {
+        // this.user.age=25; // 通过普通方式为对象添加属性时vue无法实时监视到.
+        // this.user.age = 26;
+        // 通过vue实例的$set方法为对象添加属性, 可以实时监视
+        this.$set(this.user, "age", 26);
+        // 使用全局的set方法为user添加一个属性.
+        Vue.set(this.user, 'age', 26);
+        console.log(this.user.age);
+      }, 
+      deletePropOfUser: function() {
+        if(this.user.id) {
+          // this.$delete(this.user, 'id');
+          Vue.delete(this.user, 'id');
+          console.log(this.user.id);
+        }
+        
+      }
+    }
+  })
+
+</script>
+</html>

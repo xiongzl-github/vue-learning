@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue: 模板</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      new Vue({
+        el:"#demo",
+        data:{
+          msg:'hello world!'
+        },
+        methods: {
+          created:function(){
+            alert("hello world!");
+          }
+        },
+      })
+    }
+  </script>
+  <style>
+    /* 必须配置css样式, 否则不生效 */
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    vue: 
+    一. 模板
+      vue.js是基于html的模板语法的, 可以将dom绑定到vue实例中, 
+      模板就是{{}}, 用来进行数据绑定, 显示在页面中, 也称为mustache
+
+    二. 数据绑定的方式
+      1. 双向绑定: v-model
+      2. 单向绑定
+        2-1: 使用两对{{}}, 可能会出现闪烁的问题, 可以使用v-cloak
+        2-2: 使用v-text, v-html
+    
+    三. 其它指令
+     v-once: 数据只绑定一次
+     v-pre: 不进行编译, 直接原样显示
+    
+   -->
+   <div id="demo">
+    <input type="text" v-model="msg">
+    <hr>
+    <h3 v-cloak>{{msg}}</h3>
+    <hr>
+    <h3 v-text="msg"></h3>
+    <hr>
+    <h3 v-html="msg"></h3>
+    <hr>
+    <h3 v-once>{{msg}}</h3>
+    <hr>
+    <h3 v-once v-text="msg"></h3>
+    <hr>
+    <h3 v-pre>{{msg}}</h3>
+
+
+
+
+   </div>
+
+
+</body>
+</html>

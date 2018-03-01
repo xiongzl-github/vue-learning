@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 属性绑定和属性的简写</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      let vm = new Vue({
+        el:'#demo',
+        data:{
+          url:'http://pic104.huitu.com/pic/20180224/1480548_20180224225354454010_0.jpg',
+          width:'200px',
+          height:'100px'
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+
+  <!-- v-bind: 主要用于属性的绑定以及属性的简写 -->
+  <!-- <img src="{{}}" alt=""> ==> <img v-bind:src="" alt=""> -->
+  <!-- 只需要加上v-bind:就行了 -->
+  <!-- v-bind:src=""这种写法可以简写为:src="" -->
+  <!-- 事件的绑定用的是@, 属性的绑定用的是: -->
+
+  <div id="demo">
+    <!--     
+        这种写法会报错, 已经不支持了
+        <img src="{{url}}" alt=""> 
+    -->
+    <!-- 可以直接访问vue中的数据, 不需要使用{{}} -->
+    <img v-bind:src="url" alt="">
+    <hr>
+    <img :src="url" :width="width" :height="height">
+  </div>
+</body>
+</html>

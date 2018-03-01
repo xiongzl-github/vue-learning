@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: vue的生命周期</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+      let vm = new Vue({
+        el: '#demo',
+        data: {
+          msg: "hello world!",
+          flag: true,
+        },
+        beforeCreate() {
+          console.log("beforeCreate: 组件实例刚刚创建, 还未进行数据观测和事件配置!");
+        },
+        created() {// 常用
+          console.log("created: 实例已经创建完成, 并且已经进行数据观测和事件配置!");
+        },
+        beforeMount() {
+          console.log("beforeMount: 模板编译之前, 还没挂载!");
+        },
+        mounted() {// 常用
+          console.log("mounted: 模板编译之后, 已经挂载, 此时才会渲染页面, 才能看到页面上的数据展示!");
+        },
+        beforeUpdate() {
+          console.log("beforeUpdate: 组件更新之前!");
+        },
+        updated() {
+          console.log("updated: 组件更新之后!");
+        },
+        beforeDestroy() {
+          console.log("beforeDestroy: 组件销毁之前!");
+        },
+        destroyed() {
+          console.log("destroyed: 组件销毁之后!");
+        },
+        methods: {
+          kill() {
+            console.log("kill: 尝试销毁组件");
+            // this.flag = false;
+            // 销毁的意思表示的是这个组件所占用的内存空间被回收了
+            vm.$destroy();
+          }
+        }
+      })
+    }
+  </script>
+</head>
+
+<body>
+  <div id="demo" v-show="flag">
+    <input v-model="msg" type="text" />
+    <button @click="kill()">销毁组件</button>
+    <span v-text="msg"></span>
+  </div>
+</body>
+
+</html>

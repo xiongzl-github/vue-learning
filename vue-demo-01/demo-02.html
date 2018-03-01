@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>常用指令: v-model</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      new Vue({
+        // el:'body', 在vue2.0中不允许将vue实例挂载到<html>或<body>元素
+        el:'#demo',
+        data:{
+          username:"qiberlin",    // 如果此处注释掉username, 但是在下面你进行了引用, 那么vue控制台会报错.
+          password:"xzl666",
+          flag:true,
+          nums:[12, 4, 3, 5],
+          user:{
+            id:9527,
+            name:'唐伯虎'
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+  <div id="demo">
+    <!--
+      v-model: 是用于进行双向数据绑定的, 一般是用于表单元素; 
+      表示其和date中的元素属性进行了绑定, 而{{}}中的属性取得就是data中得属性值, 
+      如果输入框中得值发生了变化, 那么{{}}中得属性值也会发生变化.
+    -->
+    username: <input type="text" v-model="username"><br>
+    password: <input type="text" v-model="password"><br>
+    <p>{{username}}</p>
+    <p>{{password}}</p>
+    <p>{{flag}}</p>
+    <p>{{nums}}</p>
+    <p>{{user}}</p>
+  </div>
+</body>
+</html>

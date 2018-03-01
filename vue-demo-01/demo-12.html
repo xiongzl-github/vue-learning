@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 事件冒泡以及默认行为</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function(){
+      let vm = new Vue({
+        el: '#demo',
+        data: {
+          show(e) {
+            console.log("show");
+            // e.stopPropagation();
+          },
+          method01: function () {
+            console.log("method01!");
+          },
+          method02: function () {
+            console.log("method02!");
+          },
+          study:function(e) {
+            console.log("study");
+            //e.preventDefault();
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+
+  <!-- 
+    事件冒泡
+    阻止事件冒泡:
+      1. 原生js方式, 依赖于事件对象.
+      2. vue方式, 不依赖于事件对象 @click.stop
+   -->
+
+
+  <div id="demo" @click="method01()">
+    <p @click="method02()">
+      <button @click="show($event)">click me</button>
+      <!-- 这种写法也可以阻止事件冒泡 -->
+      <button @click.stop="show($event)">click me</button>
+    </p>
+    <hr>
+    <!-- 既阻止事件冒泡也阻止默认行为 -->
+    <a href="#" @click.stop.prevent="study($event)">www.baidu.com</a>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: class, style属性</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload=function() {
+      let vm = new Vue({
+        el:'#demo',
+        data:{
+          aStyle:'aa',
+          bStyle:'bb',
+          flag:true,
+          num:-1,
+          temp:{
+            aa:true,
+            bb:true,
+          },
+          s:{
+            color:'red', 
+            fontSize:'30px',
+          }
+        }
+      })
+    }
+  </script>
+  <style>
+    .aa{
+      color: blue;
+      font-size: 20px;
+    }
+    .bb{
+      background-color: yellow;
+    }
+    .cc{
+      color: orange;
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="demo">
+
+    <!-- 
+      class属性
+     -->
+    <!-- <p class="aa">hello world</p> -->
+    <!-- 这种方式是可以访问的, 就是普通的css方式 -->
+    <!-- 方式1: 通过变量的形式 -->
+    <p :class="aStyle">hello world</p>
+    <hr>
+    <!-- 方式2: 同时运用两种样式-->
+    <p :class="[aStyle, bStyle]">hello world</p>
+    <hr>
+    <!-- 方式3: 以json的方式, 最常用 -->
+    <p :class="{aa:flag, bb:flag}">hello world</p>
+    <hr>
+    <p :class="{aa:flag, bb:num>0}">hello world</p>
+    <hr>
+    <!-- 方式4: 变量引用json的形式 -->
+    <p :class="temp"></p>
+
+    <!-- 
+      style属性
+     -->
+     <p :style="s">hello world</p>
+
+
+
+  </div>
+
+
+
+
+</body>
+</html>
