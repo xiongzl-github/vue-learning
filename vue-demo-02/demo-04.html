@@ -18,6 +18,10 @@
     <input type="text" v-model="age">
     <br>
     <span v-text="age"></span>
+    <hr>
+    <input type="text" v-model="user.name">
+    <br>
+    <span v-text="user.name"></span>
   </div>
 </body>
 <script>
@@ -33,9 +37,19 @@
     },
     // 方式二: 使用vue实例提供的watch选项(推荐)
     watch: {
+      // 监视普通属性
       age: (newValue, oldValue) => {
         console.log("newValue: " + newValue + ".");
         console.log("oldValue: " + oldValue + ".");
+      }, 
+      // 监视实例属性值的变化(深度监视: 当对象中的属性发生变化时, 其也会监视)
+      user: {
+        handler: (newValue, oldValue) => {
+          // 对象的新值与旧值都是一样的.
+          console.log("newValue: " + newValue.name + ".");
+          console.log("oldValue: " + oldValue.name + ".");
+        },
+        deep: true,
       }
     }
   })
