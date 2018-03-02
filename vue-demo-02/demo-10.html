@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 多元素动画</title>
+  <script src="js/vue.js"></script>
+  <link rel="stylesheet" href="css/animate.min.css">
+  <style>
+    p {
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      margin: 50px auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="demo">
+    <input type="text" v-model="searchContent" v-on:keyup="search()">
+    <transition-group name="fade" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+      <p v-show="flag" v-for="(v, k) in arr" :key="k" v-text="v"></p>
+    </transition-group>
+  </div>
+</body>
+<script>
+  let vm = new Vue({
+    el: '#demo',
+    data: {
+      flag: true,
+      searchContent: '',
+      arr: ['tom', 'jack', 'mike', 'alice', 'alex', 'mark'],
+      originalArr: ['tom', 'jack', 'mike', 'alice', 'alex', 'mark'],
+    },
+    methods: {
+      search: function () {
+        console.log('searchContent: ' + this.searchContent);
+        if (this.searchContent.length > 0) {
+          var tempArr = [];
+          this.originalArr.forEach(element => {
+            //console.log('element: ' + element);
+            if (element.includes(this.searchContent)) {
+              console.log("element: " + element);
+              tempArr.push(element);
+            }
+          });
+          this.arr = tempArr;
+        } else {
+          this.arr = this.originalArr;
+        }
+      }
+    }
+  })
+</script>
+
+</html>

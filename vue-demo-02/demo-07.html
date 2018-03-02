@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 过渡动画</title>
+  <script src="js/vue.js"></script>
+  <style>
+    p{
+      width: 300px;
+      height: 300px;
+      background-color: green;
+    }
+    .fade-enter-active, .fade-leave-active{
+      transition: all 2s ease;
+    }
+    .fade-enter-active{
+      opacity: 1;
+      width: 300px;
+      height: 300px;
+    }
+    .fade-leave-active{
+      opacity: 0;
+      width: 100px;
+      height: 100px;
+    }
+    /* .fade-enter需要放在fade-enter-active的后面 */
+    .fade-enter{
+      opacity: 0;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    过渡动画
+    1. 简介
+      vue在插入, 更新或者移除DOM时, 提供多种不同方式的应用过渡效果, 
+      本质上还是使用css3动画: transition, animation
+    2. 基本用法
+      使用transition组件, 将要执行动画的元素包含在该组件内
+      <transition>
+        需要运动的元素
+      </transition>
+    3. 结合第三方动画库anmate.css一起使用
+
+      
+   -->
+   <div id="demo">
+     <transition name="fade" 
+     v-on:before-enter="beforeEnter"
+     v-on:enter="enter"
+     v-on:after-enter="afterEnter"
+     v-on:before-leave="beforeLeave"
+     v-on:leave="leave"
+     v-on:after-leave="afterLeave">
+      <p v-show="flag">timebook</p>
+     </transition>
+    <button v-on:click="isShow()">隐藏</button>
+   </div>
+</body>
+<script>
+    let vm = new Vue({
+      el: '#demo',
+      data: {
+        flag: true,
+      },
+      methods: {
+        isShow: function() {
+          this.flag = !this.flag;
+        },
+        beforeEnter: () => {
+          console.log("beforeEnter: 动画进入之前!");
+        },
+        enter: () => {
+          console.log("enter: 动画进入!");
+        },
+        afterEnter: (el) => {
+          //console.log("afterEnter: 动画进入之后!");
+          el.style.background='yellow';
+        },
+        beforeLeave: () => {
+          console.log("beforeLeave: 动画即将离开之前!");
+        },
+        leave: () => {
+          console.log("leave: 动画离开!");
+        },
+        afterLeave: () => {
+          console.log("afterLeave: 动画离开之后!");
+        }
+      }
+    })
+</script>
+
+</html>

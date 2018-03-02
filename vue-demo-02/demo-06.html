@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 练习之自定义指令</title>
+  <script src="js/vue.js"></script>
+  <style>
+    #demo div{
+      width: 100px;
+      height: 100px;
+      position: absolute;
+    }
+    #demo .demo01 {
+      background-color: red;
+      top: 0;
+      left: 0;
+    }
+    #demo .demo02 {
+      background-color: green;
+      top: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo">
+    <div class="demo01" v-drag>demo01</div>
+    <div class="demo02" v-drag>demo02</div>
+  </div>
+</body>
+<script>
+  function addUnit(num) {
+    return num + 'px';
+  }
+  Vue.directive('drag', function(el) {
+    el.onmousedown=function(event) {
+      // 获取鼠标点击处分别与div左边和上边的距离: 鼠标位置 - div位置
+      var disX = event.clientX - el.offsetLeft;
+      var disY = event.clientY - el.offsetTop;
+      console.log("disX: " + disX + ".");
+      console.log("disY: " + disY + ".");
+      // onmousemove方法必须包含在onmousedown里面, 以防止鼠标移出div, 要使用document.onmousemove
+      document.onmousemove=function(event) {
+        // 获取移动后div的位置, 鼠标位置 - distX/distY
+        var left = event.clientX - disX;
+        var top = event.clientY - disY;
+        console.log(addUnit(left));
+        console.log(addUnit(top));
+        el.style.left= addUnit(left);
+        el.style.top=addUnit(top);
+      }
+      // 停止移动
+      document.onmouseup=function(event) {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      }
+    }
+  })
+  var vm = new Vue({
+    el: '#demo',
+    data: {
+
+    },
+    methods: {
+
+    }
+  })
+</script>
+</html>
