@@ -3,6 +3,14 @@ const path = require('path')
 const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
+// muse-ui的路径
+const museUiThemePath = path.join(
+  __dirname,
+  "..",
+  "node_modules",
+  "muse-ui",
+  "src/styles/themes/variables/teal.less"
+);
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -55,15 +63,24 @@ exports.cssLoaders = function (options) {
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
-  return {
-    css: generateLoaders(),
-    postcss: generateLoaders(),
-    less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus')
-  }
+  return { 
+    css: generateLoaders(), 
+    postcss: generateLoaders(), 
+    less: generateLoaders(
+      "less",
+      {
+        globalVars: {
+          museUiTheme: `'${museUiThemePath}'`
+        }
+      }), 
+    sass: generateLoaders(
+      "sass", 
+      {
+          indentedSyntax: true
+      }), 
+    scss: generateLoaders("sass"), 
+    stylus: generateLoaders("stylus"), 
+    styl: generateLoaders("stylus") };
 }
 
 // Generate loaders for standalone style files (outside of .vue)
