@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue: 单向数据流</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    单向数据流
+    props是单向绑定的, 当父组件的属性发生变化时, 将传导给子组件, 但是反过来不会.
+    而且不允许子组件直接修改父组件中的数据, 会报错
+    解决方式:
+    方式一: 如果子组件想把它作为局部数据来使用, 可以将数据存入另一个变量中再做操作, 不影响父组件中的数据
+    方式二: 如果子组件想修改数据并且同步更新到父组件, 有两个方法: 
+          a: 使用.sync(), 然后显式去触发一个事件.
+          b: 可以将父组件中的数据包装成对象, 然后在子组件中修改对象属性, 推荐(因为对象是引用类型, 指向同一个内存空间)
+   -->
+  <div id="demo">
+    <h2>父组件: {{name}}</h2>
+    <input type="text" v-model="name">
+    <h2>父组件: {{user.username}}</h2>
+    <hr>
+    <c-hello :name.sync="name" :user.sync="user"></c-hello>
+  </div>
+
+  <template id="hello">
+    <div>
+      <h3>子组件: {{name}}</h3>
+      <button v-on:click="change">change</button>
+      <h3>子组件: {{user.username}}</h3>
+    </div>
+  </template>
+</body>
+<script>
+  // 父组件
+  var vm = new Vue({
+    el: '#demo',
+    data: {
+      name: 'tom',
+      user: {
+        username:'zhangsan',
+      }
+    },
+    components: {
+      // 子组件
+      'c-hello': {
+        template: '#hello',
+        props: ['name', 'user'],
+        methods: {
+          change() {
+            // this.name = 'alice';
+            // 方式二: 使用.sync, 需要显式的触发一个更新事件
+            this.$emit('update:name', 'alice');
+            this.user.username = "lisi";
+          }
+        }
+      }
+    }
+  })
+</script>
+
+</html>

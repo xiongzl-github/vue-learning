@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 路由嵌套和参数传递</title>
+  <link rel="stylesheet" href="css/animate.min.css">
+  <script src="js/vue.js"></script>
+  <script src="js/vue-router.min.js"></script>
+  <style>
+    .router-link-active {
+      font-size: 20px;
+      color: orange;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 
+    3. 路由嵌套和参数传递
+    传参的两种形式:
+      3-1: 查询字符串: login?name=tom&pwd=123
+           {{$route.query}}
+      3-2: rest风格:   regist/alice/456
+           {{$route.params}}
+    4. 路由实例的方法
+    route.push() 表示添加路由, 功能上与<route-link>相同
+    route.replace() 表示替换路由, 不产生历史记录
+    5. 路由结合动画
+      <transition enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+        <router-view></router-view>
+      </transition>
+   -->
+  <div id="demo">
+    <div>
+      <router-link to="/home">主页</router-link>
+      <router-link to="/user">用户</router-link>
+    </div>
+    <div>
+
+    </div>
+    <hr>
+    <button v-on:click="push">添加路由</button>
+    <button v-on:click="replace">替换路由</button>
+  </div>
+
+  <template id="user">
+    <div>
+      <h3>用户信息</h3>
+      <ul>
+        <li><router-link to="/user/login?name=tom&pwd=123">用户登陆</router-link></li>
+        <li><router-link to="/user/regist/alice/456">用户注册</router-link></li>
+      </ul>
+      <router-view></router-view>
+    </div>
+  </template>
+</body>
+<script>
+  // 1. 定义组件
+  var Home = {
+    template: '<h3>我是主页</h3>',
+  };
+  var User = {
+    template: '#user'
+  };
+  var Login = {
+    template:'<h4>用户登陆...参数获取: {{$route.query}}, name: {{$route.query.name}}, pwd: {{$route.query.pwd}}</h4>'
+  };
+  var Regist = {
+    template:'<h4>用户注册...获取参数: {{$route.params}}, name: {{$route.params.username}}, pwd: {{$route.params.password}}, 路径: {{$route.path}}</h4>'
+  };
+  // 2. 配置路由
+  const routes = [
+    { 
+      path: '/home', 
+      component: Home, 
+    },
+    { 
+      path: '/user', 
+      component: User,
+      children:[
+        {
+          path: 'login',
+          component: Login,
+        },
+        {
+          path: 'regist/:username/:password',
+          component: Regist,
+        }
+      ] 
+    },
+    { 
+      path: '*', 
+      redirect: '/home' 
+    },
+  ];
+  // 3. 创建路由实例
+  const router = new VueRouter({
+    routes, // 简写, 相当于routes:routes
+  });
+  // 4. 创建根实例并将路由挂载到Vue实例上
+  var vm = new Vue({
+    el: '#demo',
+    router: router,  // 注入路由
+    data: {
+
+    },
+    methods: {
+      push() {
+        // push方法: 主要作用就是实现路由的跳转.
+        router.push({
+          path:'home',
+        });
+      },
+      replace(){
+        // replace方法: 主要作用就是实现路由的替换, 但是其没有历史记录
+        router.replace({
+          path:'user',
+        });
+      },
+    },
+  });
+  // 5. 
+</script>
+
+</html>

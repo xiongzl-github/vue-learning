@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 引用模板</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    引用模板: 
+    将组件内容放到模板<template>中并引用 
+  -->
+  <div id="demo">
+    <c-hello></c-hello>
+  </div>
+
+  <template id="temp">
+  <!-- <template>必须有且只有一个根元素 -->
+    <div>
+      <h3>{{msg}}</h3>
+      <ul>
+        <li v-for="value in arr">{{value}}</li>
+      </ul>
+    </div>
+  </template>
+</body>
+<script>
+  var vm = new Vue({
+    el:'#demo',
+    components: {
+      'c-hello': {
+        // 指定组件的名称, 默认为标签名.
+        name:'tempTest',
+        template:'#temp',
+        data() {
+          return {
+            msg: 'hello world',
+            arr: ['tom', 'jack', 'mike'],
+          }
+        }
+      },
+    }
+  })
+</script>
+</html>

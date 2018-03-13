@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue: 动态组件</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    <component :is=""></component>组件
+    多个组件使用同一个挂载点, 然后动态的在它们之间切换 
+  -->
+  <div id="demo">
+    <button v-on:click="flag='c-hello'">显示hello组件</button>
+    <button v-on:click="flag='c-world'">显示world组件</button>
+    <div>
+      <!-- 使用keep-alive组件缓存非活动组件, 可以保留状态, 避免重新渲染, 默认每次都会销毁非活动组件并重新创建 -->
+      <keep-alive>
+        <component :is="flag"></component>
+      </keep-alive>
+    </div>
+  </div>
+</body>
+<script>
+  var vm=new Vue({
+    el:'#demo',
+    data:{
+      flag:'c-hello',
+    },
+    components: {
+      'c-hello': {
+        template:'<h3>我是hello组件!: {{x}}</h3>',
+        data() {
+          return {
+            x: Math.random(),
+          }
+        }
+      },
+      'c-world': {
+        template:'<h3>我是world组件!: {{y}}</h3>',
+        data(){
+          return {
+            y: Math.random(),
+          }
+        }
+      },
+    }
+  })
+</script>
+</html>

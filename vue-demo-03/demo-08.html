@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: 非父子组件间的通信</title>
+  <script src="js/vue.js"></script>
+</head>
+
+<body>
+  <!-- 
+    非父子组件间的通信, 可以通过一个空的vue实例作为中央事件总线(事件中心), 用它来触发事件和监听事件
+    1. 创建一个中央事件总线(var bus = new vue())
+    2. 事件发送方: bus.$emit(事件名, 数据);
+    3. 事件接收方: bus.$on(事件名 data => {});
+   -->
+  <div id="demo">
+    <c-a></c-a>
+    <c-b></c-b>
+    <c-c></c-c>
+  </div>
+  <template id="a">
+    <div>
+      <h3>A组件: {{name}}</h3>
+      <button v-on:click="sendToC">将数据发送给C组件</button>
+    </div>
+  </template>
+
+  <template id="b">
+    <div>
+      <h3>B组件: {{age}}</h3>
+      <button v-on:click="sendToC">将数据发送给C组件</button>
+    </div>
+  </template>
+
+  <template id="c">
+    <div>
+      <h3>C组件: {{sex}}</h3>
+      <hr>
+      <h3>在组件C中访问组件A中的数据"name": {{a_name}}</h3>
+      <hr>
+      <h3>在组件C中访问组件B中的数据"age": {{b_age}}</h3>
+    </div>
+  </template>
+
+</body>
+<script>
+  // 定义一个空的vue实例
+  var bus = new Vue();
+
+    var c = {
+        name: 't-c',
+        template: '#c',
+        data() {
+          return {
+            sex: 'male',
+            a_name: '',
+            b_age: '',
+          }
+        },
+        // 在模板编译完成之后执行
+        mounted() {
+          // 侦听data-a事件
+          bus.$on('data-a', name => {
+            this.a_name = name;
+          });
+
+          bus.$on('data-b', age => {
+            this.b_age = age;
+          });
+        },
+      };
+
+  var a = {
+    name: 't-a',
+    template: '#a',
+    data() {
+      return {
+        name: 'tom',
+      }
+    },
+    methods:{
+      sendToC(){
+        bus.$emit('data-a', this.name);
+      },
+    }
+  };
+
+  var b = {
+    name: 't-b',
+    template: '#b',
+    data() {
+      return {
+        age: 28,
+      }
+    },
+    methods: {
+      sendToC() {
+        bus.$emit('data-b', this.age);
+      },
+    }
+    // updated() {
+    //   alert("updated");
+    //   bus.$emit('data-b', this.age);
+    // },
+
+  };
+
+
+
+  var vm = new Vue({
+    el: '#demo',
+    components: {
+      'c-a': a,
+      'c-b': b,
+      'c-c': c,
+    },
+  });
+</script>
+
+</html>

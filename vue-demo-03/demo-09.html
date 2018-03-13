@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue: slot内容分发</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <!-- 
+    slot 内容分发 
+    作用: 用来获取组件中的原内容
+   -->
+  <div id="demo">
+    <!-- <c-hello>我是内容</c-hello> -->
+    <c-hello>
+      <ul slot="s1">
+        <li>aaa</li>
+        <li>bbb</li>
+        <li>ccc</li>
+      </ul>
+      <ol slot="s2">
+        <li>111</li>
+        <li>222</li>
+        <li>333</li>
+      </ol>
+    </c-hello>
+  </div>
+
+  <template id="hello">
+    <div>
+      <slot name="s2"></slot>
+      <h3>welcome to beijing</h3>
+      <slot name="s1"></slot>
+      <!-- <slot>如果没有原内容, 则显示该内容!</slot> -->
+    </div>
+  </template>
+
+</body>
+<script>
+  var vm=new Vue({
+    el:'#demo',
+    components:{
+      'c-hello':{
+        name:'t_hello',
+        template:'#hello',
+        data() {
+          return {
+            name:'tom',
+          }
+        },
+      },
+    }
+  })
+</script>
+</html>
