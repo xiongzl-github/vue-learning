@@ -1,7 +1,10 @@
 <template>
+<transition enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
   <div class="hello">
-    <h1>{{ msg }}, {{$store.state.num}}</h1>
+    <h1>{{ msg }}</h1>
   </div>
+</transition>
+
 </template>
 
 <script>
@@ -10,7 +13,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Me.vue'
     }
   },
 }

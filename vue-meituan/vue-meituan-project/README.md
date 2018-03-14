@@ -13,28 +13,32 @@
   `npm install less less-loader -S`
   另外根据**muse-ui**的配置, 我们需要修改utils.js配置文件, 
   修改为: 
-  <pre>  
-    return { 
-      css: generateLoaders(), 
-      postcss: generateLoaders(), 
-      less: generateLoaders(
-        "less",
-        {
-          globalVars: {
-            museUiTheme: `'${museUiThemePath}'`
-          }
-        }),
-      ......
-  }
-  </pre>
-  此外还要加上museUiThemePath
-  <pre>
-      const museUiThemePath = path.join(
-      __dirname,
-      "..",
-      "node_modules",
-      "muse-ui",
-      "src/styles/themes/variables/teal.less"
-    );
-  </pre>
+    <pre>  
+      return { 
+        css: generateLoaders(), 
+        postcss: generateLoaders(), 
+        less: generateLoaders(
+          "less",
+          {
+            globalVars: {
+              museUiTheme: `'${museUiThemePath}'`
+            }
+          }),
+        ......
+    }
+    </pre>
+   此外还要加上museUiThemePath
+    <pre>
+        const museUiThemePath = path.join(
+        __dirname,
+        "..",
+        "node_modules",
+        "muse-ui",
+        "src/styles/themes/variables/teal.less"
+      );
+    </pre>
+### 底部导航栏
+1. 编写Home, Me, Nearby, Order, Stroll等底部导航栏
+
+2. 配置路由
   
